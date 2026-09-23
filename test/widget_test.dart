@@ -43,4 +43,17 @@ void main() {
     expect(find.text('E322 - лецитин'), findsOneWidget);
     expect(find.text('Орехи'), findsOneWidget);
   });
+
+  testWidgets('расширенная история прокручивается до новых продуктов', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const FoodCheckApp());
+
+    expect(find.text('Кефир Домик в деревне'), findsNothing);
+
+    await tester.drag(find.byType(ListView), const Offset(0, -700));
+    await tester.pump();
+
+    expect(find.text('Кефир Домик в деревне'), findsOneWidget);
+  });
 }
