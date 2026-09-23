@@ -1,0 +1,151 @@
+import '../models/product.dart';
+
+const products = [
+  CheckedProduct(
+    name: 'Молоко Простоквашино',
+    date: 'Сегодня, 10:25',
+    verdict: 'Безопасно',
+    isSafe: true,
+    barcode: '4601234567890',
+    composition: 'молоко нормализованное',
+    dangerousComponents: [],
+    additives: [],
+  ),
+  CheckedProduct(
+    name: 'Йогурт Активиа',
+    date: '12 марта, 09:15',
+    verdict: 'Безопасно',
+    isSafe: true,
+    barcode: '4601234567892',
+    composition: 'молоко, закваска, сахар, фруктовый наполнитель',
+    dangerousComponents: [],
+    additives: [
+      Additive(
+        code: 'E440',
+        name: 'пектин',
+        description: 'загуститель растительного происхождения',
+      ),
+    ],
+  ),
+  CheckedProduct(
+    name: 'Шоколад Алёнка',
+    date: 'Вчера, 18:40',
+    verdict: 'Противопоказано',
+    isSafe: false,
+    barcode: '4601234567891',
+    composition: 'сахар, какао-масло, сухое молоко, орехи',
+    dangerousComponents: ['Лактоза', 'Орехи'],
+    additives: [
+      Additive(
+        code: 'E322',
+        name: 'лецитин',
+        description: 'эмульгатор для смешивания компонентов продукта',
+      ),
+    ],
+  ),
+  CheckedProduct(
+    name: 'Сок яблочный',
+    date: '8 марта, 13:05',
+    verdict: 'Безопасно',
+    isSafe: true,
+    barcode: '4601234567894',
+    composition: 'яблочный сок, вода',
+    dangerousComponents: [],
+    additives: [
+      Additive(
+        code: 'E300',
+        name: 'аскорбиновая кислота',
+        description: 'антиоксидант, известный как витамин C',
+      ),
+    ],
+  ),
+  CheckedProduct(
+    name: 'Хлеб Бородинский',
+    date: '10 марта, 16:20',
+    verdict: 'Противопоказано',
+    isSafe: false,
+    barcode: '4601234567893',
+    composition: 'мука ржаная, мука пшеничная, вода, солод',
+    dangerousComponents: ['Глютен'],
+    additives: [
+      Additive(
+        code: 'E282',
+        name: 'пропионат кальция',
+        description: 'консервант для сохранения свежести хлеба',
+      ),
+    ],
+  ),
+  CheckedProduct(
+    name: 'Чипсы картофельные',
+    date: '5 марта, 20:10',
+    verdict: 'Противопоказано',
+    isSafe: false,
+    barcode: '4601234567895',
+    composition: 'картофель, растительное масло, соль, ароматизатор',
+    dangerousComponents: ['Глютен'],
+    additives: [
+      Additive(
+        code: 'E621',
+        name: 'глутамат натрия',
+        description: 'усилитель вкуса и аромата',
+      ),
+      Additive(
+        code: 'E627',
+        name: 'гуанилат натрия',
+        description: 'усилитель вкуса',
+      ),
+    ],
+  ),
+  CheckedProduct(
+    name: 'Творог Простоквашино',
+    date: '3 марта, 11:40',
+    verdict: 'Безопасно',
+    isSafe: true,
+    barcode: '4601234567896',
+    composition: 'молоко, закваска',
+    dangerousComponents: [],
+    additives: [],
+  ),
+  CheckedProduct(
+    name: 'Каша гречневая',
+    date: '1 марта, 08:30',
+    verdict: 'Безопасно',
+    isSafe: true,
+    barcode: '4601234567897',
+    composition: 'крупа гречневая, вода, соль',
+    dangerousComponents: [],
+    additives: [],
+  ),
+  CheckedProduct(
+    name: 'Батон нарезной',
+    date: '27 февраля, 17:15',
+    verdict: 'Противопоказано',
+    isSafe: false,
+    barcode: '4601234567898',
+    composition: 'мука пшеничная, вода, дрожжи, сахар, соль',
+    dangerousComponents: ['Глютен'],
+    additives: [
+      Additive(
+        code: 'E282',
+        name: 'пропионат кальция',
+        description: 'консервант для сохранения свежести хлеба',
+      ),
+    ],
+  ),
+  CheckedProduct(
+    name: 'Кефир Домик в деревне',
+    date: '25 февраля, 19:05',
+    verdict: 'Безопасно',
+    isSafe: true,
+    barcode: '4601234567899',
+    composition: 'молоко, закваска',
+    dangerousComponents: [],
+    additives: [
+      Additive(
+        code: 'E202',
+        name: 'сорбат калия',
+        description: 'консервант для сохранения продукта',
+      ),
+    ],
+  ),
+];
