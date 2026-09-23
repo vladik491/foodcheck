@@ -79,4 +79,17 @@ void main() {
     expect(find.text('Шоколад Алёнка'), findsOneWidget);
     expect(find.text('Противопоказано'), findsOneWidget);
   });
+
+  testWidgets('товар из истории доступен в списке штрихкодов', (tester) async {
+    await tester.pumpWidget(const FoodCheckApp());
+
+    await tester.tap(find.byKey(const Key('scannerButton')));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('mockBarcode_4601234567899')),
+      500,
+    );
+
+    expect(find.byKey(const Key('mockBarcode_4601234567899')), findsOneWidget);
+  });
 }

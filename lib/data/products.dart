@@ -149,3 +149,12 @@ const products = [
     ],
   ),
 ];
+
+CheckedProduct? productByBarcode(String barcode) {
+  for (final product in products) {
+    if (product.barcode == barcode) {
+      return product;
+    }
+  }
+  return null;
+}

@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 
 import '../data/products.dart';
-import '../models/product.dart';
 import '../widgets/barcode_mock_card.dart';
 import 'product_detail_screen.dart';
 
 class BarcodeScanScreen extends StatelessWidget {
   const BarcodeScanScreen({super.key});
 
-  void openProduct(BuildContext context, CheckedProduct product) {
+  void openBarcode(BuildContext context, String barcode) {
+    final product = productByBarcode(barcode);
+    if (product == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Товар с таким штрихкодом не найден')),
+      );
+      return;
+    }
+
     Navigator.of(context).push(
       MaterialPageRoute<void>(
         builder: (context) => ProductDetailScreen(product: product),
@@ -18,14 +25,6 @@ class BarcodeScanScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scanProducts = [
-      products[0],
-      products[2],
-      products[3],
-      products[4],
-      products[5],
-    ];
-
     return Scaffold(
       appBar: AppBar(title: const Text('Сканирование штрихкода')),
       body: ListView(
@@ -40,10 +39,10 @@ class BarcodeScanScreen extends StatelessWidget {
             'На эмуляторе выбор изображения заменяет наведение камеры на упаковку товара.',
           ),
           const SizedBox(height: 16),
-          ...scanProducts.map(
+          ...products.map(
             (product) => BarcodeMockCard(
               product: product,
-              onTap: () => openProduct(context, product),
+              onTap: () => openBarcode(context, product.barcode),
             ),
           ),
         ],
