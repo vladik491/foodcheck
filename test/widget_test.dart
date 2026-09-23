@@ -29,4 +29,18 @@ void main() {
     expect(find.text('Критические аллергены'), findsOneWidget);
     expect(find.text('Орехи'), findsOneWidget);
   });
+
+  testWidgets('нажатие на продукт открывает подробную информацию', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const FoodCheckApp());
+
+    await tester.tap(find.text('Шоколад Алёнка'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Состав продукта'), findsOneWidget);
+    expect(find.text('Противопоказано'), findsOneWidget);
+    expect(find.text('E322 - лецитин'), findsOneWidget);
+    expect(find.text('Орехи'), findsOneWidget);
+  });
 }
