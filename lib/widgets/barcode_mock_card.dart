@@ -1,3 +1,4 @@
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../models/product.dart';
@@ -33,7 +34,11 @@ class BarcodeMockCard extends StatelessWidget {
                 key: Key('mockBarcode_${product.barcode}'),
                 height: 72,
                 width: double.infinity,
-                child: CustomPaint(painter: BarcodePainter(product.barcode)),
+                child: BarcodeWidget(
+                  barcode: Barcode.code128(),
+                  data: product.barcode,
+                  drawText: false,
+                ),
               ),
               const SizedBox(height: 6),
               Text(
@@ -45,35 +50,5 @@ class BarcodeMockCard extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class BarcodePainter extends CustomPainter {
-  BarcodePainter(this.code);
-
-  final String code;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()..color = Colors.black87;
-    var x = 4.0;
-    var index = 0;
-
-    while (x < size.width - 4) {
-      final digit = code.codeUnitAt(index % code.length) - 48;
-      final barWidth = 1.5 + (digit % 3);
-      final gap = 1.0 + ((digit + index) % 2);
-      final top = index % 5 == 0 ? 8.0 : 3.0;
-      final bottom = index % 5 == 0 ? size.height - 8 : size.height - 3;
-
-      canvas.drawRect(Rect.fromLTWH(x, top, barWidth, bottom - top), paint);
-      x += barWidth + gap;
-      index++;
-    }
-  }
-
-  @override
-  bool shouldRepaint(covariant BarcodePainter oldDelegate) {
-    return oldDelegate.code != code;
   }
 }

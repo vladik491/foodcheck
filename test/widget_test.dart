@@ -64,6 +64,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Сканирование штрихкода'), findsOneWidget);
+    expect(find.text('Сканировать камерой'), findsOneWidget);
     expect(find.byKey(const Key('mockBarcode_4601234567890')), findsOneWidget);
     expect(find.byKey(const Key('mockBarcode_4601234567891')), findsOneWidget);
   });
@@ -73,7 +74,12 @@ void main() {
 
     await tester.tap(find.byKey(const Key('scannerButton')));
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const Key('mockBarcode_4601234567891')));
+    final barcode = find.byKey(const Key('mockBarcode_4601234567891'));
+    await tester.drag(find.byType(ListView), const Offset(0, -500));
+    await tester.pump();
+    await tester.tap(
+      find.ancestor(of: barcode, matching: find.byType(InkWell)),
+    );
     await tester.pumpAndSettle();
 
     expect(find.text('Шоколад Алёнка'), findsOneWidget);
