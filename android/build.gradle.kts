@@ -19,6 +19,18 @@ subprojects {
     project.evaluationDependsOn(":app")
 }
 
+project(":realm").afterEvaluate {
+    extensions.findByName("android")?.let { androidExtension ->
+        androidExtension.javaClass
+            .methods
+            .firstOrNull { method -> method.name == "setCompileSdk" }
+            ?.invoke(androidExtension, 35)
+    }
+    tasks.matching { it.name == "downloadRealmBinaries" }.configureEach {
+        enabled = false
+    }
+}
+
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
 import '../data/products.dart';
+import '../models/product.dart';
 import '../widgets/barcode_mock_card.dart';
 import 'barcode_preview_screen.dart';
 import 'camera_scan_screen.dart';
 import 'product_detail_screen.dart';
 
 class BarcodeScanScreen extends StatelessWidget {
-  const BarcodeScanScreen({super.key});
+  const BarcodeScanScreen({required this.items, super.key});
+
+  final List<CheckedProduct> items;
 
   Future<void> scanWithCamera(BuildContext context) async {
     final barcode = await Navigator.of(context).push<String>(
@@ -56,7 +59,7 @@ class BarcodeScanScreen extends StatelessWidget {
             'На эмуляторе можно выбрать штрихкод из списка. На телефоне его можно считать камерой с экрана другого устройства.',
           ),
           const SizedBox(height: 16),
-          ...products.map(
+          ...items.map(
             (product) => BarcodeMockCard(
               product: product,
               onTap: () => openBarcode(context, product.barcode),

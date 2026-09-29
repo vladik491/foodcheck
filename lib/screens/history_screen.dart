@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/products.dart';
 import '../models/product.dart';
+import '../storage/app_storage.dart';
 import '../widgets/product_card.dart';
 import 'barcode_scan_screen.dart';
 import 'product_detail_screen.dart';
@@ -16,6 +17,18 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   String searchText = '';
+  List<CheckedProduct> checkedProducts = List.of(products);
+
+  @override
+  void initState() {
+    super.initState();
+    AppStorage.instance.initialize().then((_) {
+      if (!mounted) return;
+      setState(() {
+        checkedProducts = List.of(AppStorage.instance.checkedProducts);
+      });
+    });
+  }
 
   void openProduct(CheckedProduct product) {
     Navigator.of(context).push(
@@ -27,7 +40,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final visibleProducts = products
+    final visibleProducts = checkedProducts
         .where(
           (product) =>
               product.name.toLowerCase().contains(searchText.toLowerCase()),
@@ -44,7 +57,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
-                  builder: (context) => const BarcodeScanScreen(),
+                  builder: (context) =>
+                      BarcodeScanScreen(items: checkedProducts),
                 ),
               );
             },
