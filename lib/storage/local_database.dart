@@ -43,7 +43,10 @@ class LocalDatabase {
           await database.execute('DROP TABLE old_checked_products');
         }
         if (oldVersion < 3) {
-          await database.delete('checked_products');
+          await database.delete(
+            'checked_products',
+            where: "checked_at NOT GLOB '[0-9][0-9].[0-9][0-9].[0-9][0-9][0-9][0-9], [0-9][0-9]:[0-9][0-9]'",
+          );
         }
       },
     );
