@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../data/products.dart';
 import '../models/product.dart';
-import '../services/product_check.dart';
 import '../storage/app_storage.dart';
 import '../widgets/product_card.dart';
 import 'barcode_scan_screen.dart';
@@ -18,7 +17,9 @@ class HistoryScreen extends StatefulWidget {
 
 class _HistoryScreenState extends State<HistoryScreen> {
   String searchText = '';
-  List<CheckedProduct> checkedProducts = List.of(products);
+  List<CheckedProduct> checkedProducts = List.of(
+    AppStorage.instance.checkedProducts,
+  );
 
   @override
   void initState() {
@@ -34,9 +35,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   void openProduct(CheckedProduct product) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (context) => ProductDetailScreen(
-          product: checkProduct(product, AppStorage.instance.profile.allergens),
-        ),
+        builder: (context) => ProductDetailScreen(product: product),
       ),
     );
   }
@@ -51,10 +50,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   Widget build(BuildContext context) {
     final visibleProducts = checkedProducts
-        .map(
-          (product) =>
-              checkProduct(product, AppStorage.instance.profile.allergens),
-        )
         .where(
           (product) =>
               product.name.toLowerCase().contains(searchText.toLowerCase()),

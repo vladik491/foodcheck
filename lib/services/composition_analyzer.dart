@@ -49,6 +49,22 @@ class CompositionAnalyzer {
         return ['лактоз', 'молок', 'молоч', 'milk', 'lactose'];
       case 'глютен':
         return ['глютен', 'пшен', 'рож', 'мук', 'gluten', 'wheat'];
+      case 'яйца':
+        return ['яйц', 'egg'];
+      case 'соя':
+        return ['соя', 'soy'];
+      case 'рыба':
+        return ['рыб', 'fish'];
+      case 'моллюски':
+        return ['моллюск', 'shellfish'];
+      case 'кунжут':
+        return ['кунжут', 'sesame'];
+      case 'горчица':
+        return ['горчиц', 'mustard'];
+      case 'сельдерей':
+        return ['сельдер', 'celery'];
+      case 'сульфиты':
+        return ['сульфит', 'sulfite'];
       default:
         return [marker.toLowerCase()];
     }

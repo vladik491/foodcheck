@@ -24,4 +24,14 @@ void main() {
     expect(checked.date, '29.09.2026, 14:07');
     expect(checked.barcode, chocolate.barcode);
   });
+
+  test('старый результат не меняется после нового выбора аллергена', () {
+    final yesterday = checkProduct(chocolate, ['Глютен']);
+    final today = checkProduct(chocolate, ['Орехи']);
+
+    expect(yesterday.isSafe, isTrue);
+    expect(today.isSafe, isFalse);
+    expect(yesterday.verdict, 'Безопасно');
+    expect(today.verdict, 'Противопоказано');
+  });
 }

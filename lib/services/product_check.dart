@@ -29,7 +29,7 @@ CheckedProduct checkProduct(
     isSafe: isSafe,
     barcode: product.barcode,
     composition: product.composition,
-    dangerousComponents: product.dangerousComponents,
+    dangerousComponents: matchingAllergens(product, selectedAllergens),
     additives: product.additives,
   );
 }

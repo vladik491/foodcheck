@@ -90,6 +90,30 @@ class OpenFoodFactsService {
     for (final word in const ['глютен', 'пшен', 'рож', 'gluten', 'wheat']) {
       if (text.contains(word)) result.add('Глютен');
     }
+    for (final word in const ['яйц', 'egg']) {
+      if (text.contains(word)) result.add('Яйца');
+    }
+    for (final word in const ['соя', 'soy']) {
+      if (text.contains(word)) result.add('Соя');
+    }
+    for (final word in const ['рыб', 'fish']) {
+      if (text.contains(word)) result.add('Рыба');
+    }
+    for (final word in const ['моллюск', 'shellfish']) {
+      if (text.contains(word)) result.add('Моллюски');
+    }
+    for (final word in const ['кунжут', 'sesame']) {
+      if (text.contains(word)) result.add('Кунжут');
+    }
+    for (final word in const ['горчиц', 'mustard']) {
+      if (text.contains(word)) result.add('Горчица');
+    }
+    for (final word in const ['сельдер', 'celery']) {
+      if (text.contains(word)) result.add('Сельдерей');
+    }
+    for (final word in const ['сульфит', 'sulfite']) {
+      if (text.contains(word)) result.add('Сульфиты');
+    }
     return result.toList();
   }
 
@@ -110,6 +134,16 @@ class OpenFoodFactsService {
         text.contains('глютен')) {
       return 'Глютен';
     }
+    if (text.contains('egg') || text.contains('яйц')) return 'Яйца';
+    if (text.contains('soy') || text.contains('соя')) return 'Соя';
+    if (text.contains('fish') || text.contains('рыб')) return 'Рыба';
+    if (text.contains('shellfish') || text.contains('моллюск')) {
+      return 'Моллюски';
+    }
+    if (text.contains('sesame') || text.contains('кунжут')) return 'Кунжут';
+    if (text.contains('mustard') || text.contains('горчиц')) return 'Горчица';
+    if (text.contains('celery') || text.contains('сельдер')) return 'Сельдерей';
+    if (text.contains('sulfite') || text.contains('сульфит')) return 'Сульфиты';
     return null;
   }
 

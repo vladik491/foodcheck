@@ -13,7 +13,7 @@ class LocalDatabase {
     final databasePath = join(await getDatabasesPath(), 'foodcheck.db');
     _database = await openDatabase(
       databasePath,
-      version: 2,
+      version: 3,
       onCreate: (database, version) async {
         await database.execute('''
           CREATE TABLE profile (
@@ -41,6 +41,9 @@ class LocalDatabase {
             ORDER BY id DESC
           ''');
           await database.execute('DROP TABLE old_checked_products');
+        }
+        if (oldVersion < 3) {
+          await database.delete('checked_products');
         }
       },
     );

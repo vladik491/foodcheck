@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../models/product.dart';
-import '../services/product_check.dart';
-import '../storage/app_storage.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   const ProductDetailScreen({required this.product, super.key});
@@ -12,10 +10,7 @@ class ProductDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final verdictColor = product.isSafe ? Colors.green : Colors.red;
-    final dangerousComponents = matchingAllergens(
-      product,
-      AppStorage.instance.profile.allergens,
-    );
+    final dangerousComponents = product.dangerousComponents;
 
     return Scaffold(
       appBar: AppBar(title: Text(product.name)),

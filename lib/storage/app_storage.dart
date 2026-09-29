@@ -16,7 +16,7 @@ class AppStorage {
     allergens: ['Орехи', 'Лактоза', 'Глютен'],
   );
 
-  List<CheckedProduct> checkedProducts = List.of(products);
+  List<CheckedProduct> checkedProducts = [];
   ProfileData profile = defaultProfile;
 
   LocalDatabase? _database;
@@ -31,11 +31,7 @@ class AppStorage {
     try {
       _database = LocalDatabase();
       final savedProducts = await _database!.readProducts();
-      if (savedProducts.isEmpty) {
-        await _database!.saveProducts(products);
-      } else {
-        checkedProducts = savedProducts;
-      }
+      checkedProducts = savedProducts;
 
       final savedProfile = await _database!.readProfile();
       if (savedProfile == null) {
@@ -44,7 +40,7 @@ class AppStorage {
         profile = savedProfile;
       }
     } catch (_) {
-      checkedProducts = List.of(products);
+      checkedProducts = [];
     }
 
     try {
