@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/products.dart';
 import '../models/product.dart';
+import '../services/product_check.dart';
 import '../storage/app_storage.dart';
 import '../widgets/product_card.dart';
 import 'barcode_scan_screen.dart';
@@ -33,14 +34,27 @@ class _HistoryScreenState extends State<HistoryScreen> {
   void openProduct(CheckedProduct product) {
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (context) => ProductDetailScreen(product: product),
+        builder: (context) => ProductDetailScreen(
+          product: checkProduct(product, AppStorage.instance.profile.allergens),
+        ),
       ),
     );
+  }
+
+  void refreshHistory() {
+    if (!mounted) return;
+    setState(() {
+      checkedProducts = List.of(AppStorage.instance.checkedProducts);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final visibleProducts = checkedProducts
+        .map(
+          (product) =>
+              checkProduct(product, AppStorage.instance.profile.allergens),
+        )
         .where(
           (product) =>
               product.name.toLowerCase().contains(searchText.toLowerCase()),
@@ -54,25 +68,27 @@ class _HistoryScreenState extends State<HistoryScreen> {
           IconButton(
             key: const Key('scannerButton'),
             tooltip: 'Сканировать штрихкод',
-            onPressed: () {
-              Navigator.of(context).push(
+            onPressed: () async {
+              await Navigator.of(context).push(
                 MaterialPageRoute<void>(
                   builder: (context) =>
-                      BarcodeScanScreen(items: checkedProducts),
+                      const BarcodeScanScreen(items: products),
                 ),
               );
+              refreshHistory();
             },
             icon: const Icon(Icons.qr_code_scanner),
           ),
           IconButton(
             key: const Key('profileButton'),
             tooltip: 'Профиль',
-            onPressed: () {
-              Navigator.of(context).push(
+            onPressed: () async {
+              await Navigator.of(context).push(
                 MaterialPageRoute<void>(
                   builder: (context) => const ProfileScreen(),
                 ),
               );
+              refreshHistory();
             },
             icon: const Icon(Icons.person_outline),
           ),

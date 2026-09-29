@@ -12,7 +12,6 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   ProfileData profile = AppStorage.instance.profile;
-  final availableAllergens = const ['Орехи', 'Лактоза', 'Глютен'];
 
   @override
   void initState() {
@@ -23,22 +22,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
   }
 
-  Future<void> changeAllergen(String allergen, bool selected) async {
-    final allergens = {...profile.allergens};
-    if (selected) {
-      allergens.add(allergen);
-    } else {
-      allergens.remove(allergen);
-    }
+  Future<void> saveAllergens(List<String> allergens) async {
     final updated = ProfileData(
       name: profile.name,
       group: profile.group,
-      allergens: availableAllergens
-          .where(allergens.contains)
-          .toList(growable: false),
+      allergens: allergens,
     );
     setState(() => profile = updated);
     await AppStorage.instance.saveProfile(updated);
+  }
+
+  Future<void> addAllergen() async {
+    final options = AppStorage.instance.availableAllergens
+        .where((item) => !profile.allergens.contains(item))
+        .toList();
+    final selected = await showDialog<String>(
+      context: context,
+      builder: (context) => SimpleDialog(
+        title: const Text('Выбери аллерген'),
+        children: options
+            .map(
+              (item) => SimpleDialogOption(
+                onPressed: () => Navigator.pop(context, item),
+                child: Text(item),
+              ),
+            )
+            .toList(),
+      ),
+    );
+    if (selected != null) {
+      await saveAllergens([...profile.allergens, selected]);
+    }
   }
 
   @override
@@ -65,16 +79,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: availableAllergens
+            children: profile.allergens
                 .map(
-                  (allergen) => FilterChip(
+                  (allergen) => InputChip(
+                    key: Key('removeAllergen_$allergen'),
                     label: Text(allergen),
-                    selected: profile.allergens.contains(allergen),
-                    onSelected: (selected) =>
-                        changeAllergen(allergen, selected),
+                    deleteIcon: Icon(
+                      Icons.close,
+                      key: Key('deleteAllergen_$allergen'),
+                    ),
+                    onDeleted: () => saveAllergens(
+                      profile.allergens
+                          .where((item) => item != allergen)
+                          .toList(),
+                    ),
                   ),
                 )
                 .toList(),
+          ),
+          const SizedBox(height: 12),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: OutlinedButton.icon(
+              onPressed:
+                  profile.allergens.length <
+                      AppStorage.instance.availableAllergens.length
+                  ? addAllergen
+                  : null,
+              icon: const Icon(Icons.add),
+              label: const Text('Добавить аллерген'),
+            ),
           ),
         ],
       ),

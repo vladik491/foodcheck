@@ -8,7 +8,7 @@ const products = [
     isSafe: true,
     barcode: '4601234567890',
     composition: 'молоко нормализованное',
-    dangerousComponents: [],
+    dangerousComponents: ['Лактоза'],
     additives: [],
   ),
   CheckedProduct(
@@ -18,7 +18,7 @@ const products = [
     isSafe: true,
     barcode: '4601234567892',
     composition: 'молоко, закваска, сахар, фруктовый наполнитель',
-    dangerousComponents: [],
+    dangerousComponents: ['Лактоза'],
     additives: [
       Additive(
         code: 'E440',
@@ -81,7 +81,7 @@ const products = [
     verdict: 'Противопоказано',
     isSafe: false,
     barcode: '4601234567895',
-    composition: 'картофель, растительное масло, соль, ароматизатор',
+    composition: 'картофель, растительное масло, соль, ароматизатор (пшеница)',
     dangerousComponents: ['Глютен'],
     additives: [
       Additive(
@@ -103,7 +103,7 @@ const products = [
     isSafe: true,
     barcode: '4601234567896',
     composition: 'молоко, закваска',
-    dangerousComponents: [],
+    dangerousComponents: ['Лактоза'],
     additives: [],
   ),
   CheckedProduct(
@@ -113,7 +113,7 @@ const products = [
     isSafe: true,
     barcode: '4601234567897',
     composition: 'крупа гречневая, вода, соль',
-    dangerousComponents: [],
+    dangerousComponents: ['Лактоза'],
     additives: [],
   ),
   CheckedProduct(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../models/product.dart';
+import '../services/product_check.dart';
+import '../storage/app_storage.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   const ProductDetailScreen({required this.product, super.key});
@@ -10,6 +12,10 @@ class ProductDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final verdictColor = product.isSafe ? Colors.green : Colors.red;
+    final dangerousComponents = matchingAllergens(
+      product,
+      AppStorage.instance.profile.allergens,
+    );
 
     return Scaffold(
       appBar: AppBar(title: Text(product.name)),
@@ -40,7 +46,7 @@ class ProductDetailScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(product.composition),
-          if (product.dangerousComponents.isNotEmpty) ...[
+          if (dangerousComponents.isNotEmpty) ...[
             const SizedBox(height: 16),
             const Text(
               'Опасные компоненты',
@@ -50,7 +56,7 @@ class ProductDetailScreen extends StatelessWidget {
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: product.dangerousComponents
+              children: dangerousComponents
                   .map(
                     (component) => Chip(
                       avatar: const Icon(Icons.warning_amber, size: 18),

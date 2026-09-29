@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/products.dart';
 import '../models/product.dart';
+import '../storage/app_storage.dart';
 import '../widgets/barcode_mock_card.dart';
 import 'barcode_preview_screen.dart';
 import 'camera_scan_screen.dart';
@@ -21,7 +22,7 @@ class BarcodeScanScreen extends StatelessWidget {
     }
   }
 
-  void openBarcode(BuildContext context, String barcode) {
+  Future<void> openBarcode(BuildContext context, String barcode) async {
     final product = productByBarcode(barcode);
     if (product == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -30,9 +31,11 @@ class BarcodeScanScreen extends StatelessWidget {
       return;
     }
 
+    final checked = await AppStorage.instance.recordCheck(product);
+    if (!context.mounted) return;
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (context) => ProductDetailScreen(product: product),
+        builder: (context) => ProductDetailScreen(product: checked),
       ),
     );
   }

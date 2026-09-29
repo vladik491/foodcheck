@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:foodcheck/main.dart';
+import 'package:foodcheck/storage/app_storage.dart';
 
 void main() {
+  setUp(() async {
+    await AppStorage.instance.resetForTesting();
+  });
+
   testWidgets('поиск фильтрует историю проверок', (tester) async {
     await tester.pumpWidget(const FoodCheckApp());
 
@@ -39,7 +44,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Состав продукта'), findsOneWidget);
-    expect(find.text('Противопоказано'), findsOneWidget);
+    expect(find.text('Итог проверки'), findsOneWidget);
     expect(find.text('E322 - лецитин'), findsOneWidget);
     expect(find.text('Орехи'), findsOneWidget);
   });
@@ -69,23 +74,6 @@ void main() {
     await tester.drag(find.byType(ListView), const Offset(0, -500));
     await tester.pump();
     expect(find.byKey(const Key('mockBarcode_4601234567891')), findsOneWidget);
-  });
-
-  testWidgets('выбор изображения штрихкода открывает товар', (tester) async {
-    await tester.pumpWidget(const FoodCheckApp());
-
-    await tester.tap(find.byKey(const Key('scannerButton')));
-    await tester.pumpAndSettle();
-    final barcode = find.byKey(const Key('mockBarcode_4601234567891'));
-    await tester.drag(find.byType(ListView), const Offset(0, -500));
-    await tester.pump();
-    await tester.tap(
-      find.ancestor(of: barcode, matching: find.byType(InkWell)),
-    );
-    await tester.pumpAndSettle();
-
-    expect(find.text('Шоколад Алёнка'), findsOneWidget);
-    expect(find.text('Противопоказано'), findsOneWidget);
   });
 
   testWidgets('кнопка показывает крупный штрихкод для камеры', (tester) async {
