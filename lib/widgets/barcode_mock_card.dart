@@ -7,11 +7,13 @@ class BarcodeMockCard extends StatelessWidget {
   const BarcodeMockCard({
     required this.product,
     required this.onTap,
+    required this.onPreview,
     super.key,
   });
 
   final CheckedProduct product;
   final VoidCallback onTap;
+  final VoidCallback onPreview;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,15 @@ class BarcodeMockCard extends StatelessWidget {
               Text(
                 product.barcode,
                 style: Theme.of(context).textTheme.bodySmall,
+              ),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton.icon(
+                  key: Key('showBarcode_${product.barcode}'),
+                  onPressed: onPreview,
+                  icon: const Icon(Icons.zoom_in),
+                  label: const Text('Показать крупно'),
+                ),
               ),
             ],
           ),

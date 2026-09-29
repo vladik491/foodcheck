@@ -66,6 +66,8 @@ void main() {
     expect(find.text('Сканирование штрихкода'), findsOneWidget);
     expect(find.text('Сканировать камерой'), findsOneWidget);
     expect(find.byKey(const Key('mockBarcode_4601234567890')), findsOneWidget);
+    await tester.drag(find.byType(ListView), const Offset(0, -500));
+    await tester.pump();
     expect(find.byKey(const Key('mockBarcode_4601234567891')), findsOneWidget);
   });
 
@@ -84,6 +86,22 @@ void main() {
 
     expect(find.text('Шоколад Алёнка'), findsOneWidget);
     expect(find.text('Противопоказано'), findsOneWidget);
+  });
+
+  testWidgets('кнопка показывает крупный штрихкод для камеры', (tester) async {
+    await tester.pumpWidget(const FoodCheckApp());
+
+    await tester.tap(find.byKey(const Key('scannerButton')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('showBarcode_4601234567890')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Штрихкод товара'), findsOneWidget);
+    expect(find.text('Молоко Простоквашино'), findsOneWidget);
+    expect(
+      find.text('Наведите камеру другого телефона на этот экран.'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('товар из истории доступен в списке штрихкодов', (tester) async {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/products.dart';
 import '../widgets/barcode_mock_card.dart';
+import 'barcode_preview_screen.dart';
 import 'camera_scan_screen.dart';
 import 'product_detail_screen.dart';
 
@@ -59,6 +60,11 @@ class BarcodeScanScreen extends StatelessWidget {
             (product) => BarcodeMockCard(
               product: product,
               onTap: () => openBarcode(context, product.barcode),
+              onPreview: () => Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (context) => BarcodePreviewScreen(product: product),
+                ),
+              ),
             ),
           ),
         ],
